@@ -44,17 +44,17 @@ def get_reports(number):
     for x in range(number+1):
         print(str(x)+"/"+str(number))
         report = remaining[x]
-        result = requests.get(base + report)
         try:
+            result = requests.get(base + report)
             soup = BeautifulSoup(result.content, 'html.parser')
             data = soup.find("tbody").text
             all_reports[report.split('.')[0]] = parse_report(data)
         except:
             err.append(report)
-        if x % 100 == 0:
+        if x % 10 == 0:
             pickle.dump(all_reports, open("reports.p", "wb"))
             print("saved")
-        time.sleep(2)    
+        time.sleep(3)    
     pickle.dump(all_reports, open("reports.p", "wb"))
     print("finished")
     print("Elapsed: ",time.time() - a)
